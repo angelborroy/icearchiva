@@ -7,7 +7,7 @@
     <meta name="description" content="Icearchiva : Repositorio digital de larga duración (LTA)" />
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
+	<link rel="shortcut icon" type='image/x-icon' href="images/icearchiva_icono.ico">
     <title>Icearchiva</title>
   </head>
 
@@ -18,8 +18,7 @@
         <header class="inner">
           <a id="forkme_banner" href="https://github.com/keensoft/icearchiva">View on GitHub</a>
 
-          <h1 id="project_title">Icearchiva</h1>
-          <h2 id="project_tagline">Repositorio digital de larga duración (LTA)</h2>
+          <h2 id="project_tagline"><img src="images/icearchiva.png" /> </h2>
 
             <section id="downloads">
               <a class="zip_download_link" href="https://github.com/keensoft/icearchiva/zipball/master">Download this project as a .zip file</a>
@@ -31,45 +30,60 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
-
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
-
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
-
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
-
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
-
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
-
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
-
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
-
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+        <h3>Qué es</h3>
+		<p><a href="https://github.com/keensoft/icearchiva">icearchiva</a> es una aplicación de repositorio electrónico que tiene el cometido de almacenar la información de los expedientes del modo adecuado para que su validez legal permanezca en el tiempo.</p>
+		<p>Tal como se establece en el <a href="http://administracionelectronica.gob.es/pae_Home/pae_Estrategias/pae_Seguridad_Inicio/pae_Esquema_Nacional_de_Seguridad.html#.UnI49ZV3uHs">ENS</a> y <a href="http://administracionelectronica.gob.es/pae_Home/pae_Estrategias/pae_Interoperabilidad_Inicio/pae_Esquema_Nacional_de_Interoperabilidad.html#.UnI4spV3uHs">ENI</a> explícitamente en su capitulo X “Recuperación y conservación del documento electrónico”, así como en las <a href="http://administracionelectronica.gob.es/pae_Home/pae_Estrategias/pae_Interoperabilidad_Inicio/pae_Normas_tecnicas_de_interoperabilidad.html#.UnI4qJV3uHs">NTI</a>, se debe garantizar la preservación y la validez jurídica del documento electrónico a lo largo de su vida útil. Si el documento nace electrónico se tiene que preservar electrónicamente con las garantías mencionadas.</p>		
+		<br/>
+		<h3>Descripción</h3>
+		<p>Un repositorio digital de larga duración se compone de diferentes sistemas integrados por una aplicación que provee el servicio, como es el caso de <a href="https://github.com/keensoft/icearchiva">icearchiva</a>.</p>
+		<p><a href="https://github.com/keensoft/icearchiva">icearchiva</a> gestiona todas las operaciones que debe facilitar un repositorio de larga duración y permite al integrador decidir qué sistemas o aplicaciones desea utilizar para cada uno de los difentes servicios.</p>
+		<p>Los servicios proporcionados son:
+			<ul>
+				<li>Núcleo de repositorio y procesos automáticos de mantenimiento.</li>
+				<li>Servicios web para exponer las operaciones de repositorio.</li>
+				<li>Autenticación mediante <a href="http://en.wikipedia.org/wiki/LDAP">LDAP</a>.</li>
+				<li>Acceso a respositorios <a href="http://en.wikipedia.org/wiki/CMIS">CMIS</a>.</li>
+				<li>Soporte multi entidad. (<a href="http://en.wikipedia.org/wiki/Multitenancy">Multitenancy</a>)</li>
+				<li>Conexión a <a href="http://en.wikipedia.org/wiki/Trusted_timestamping">TSA</a>.</li>
+				<li>Empaquetado <a href="http://www.loc.gov/standards/mets/">METS</a>.</li>
+				<li>Gestión de certificados mediante Java KeyStore.</li>
+				<li>Gestión de procesos.</li>
+			</ul>
+		</p>
+		<p>Los servicios mínimos que se requieren son:
+			<ul>
+				<li>Servicio de firma.</li>
+				<li>Servicio de sellos de tiempo. (<a href="http://en.wikipedia.org/wiki/Trusted_timestamping">TSA</a>)</li>
+				<li>Repositorio <a href="http://en.wikipedia.org/wiki/CMIS">CMIS</a>.</li>
+				<li>Servicio de indexación.</li>				
+			</ul>
+			pudiendo realizar nuevas implementaciones de los facilitados para adecuarse a las necesidades de la integración.
+		</p>
+		<br/>
+		<h3>Contribuir</h3>
+		<p>Si quieres contribuir estas invitado a hacerlo.
+			<ul>
+				<li>Clona el repositorio <i>git</i> del proyecto.</li>
+				<li>Realiza los cambios que desees aportar.</li>
+				<li>Finalmente comparte tus cambios con la comunidad utilizando GitHub.</li>
+			</ul>
+		</p>
+		<br/>
+		<h3>Descargas</h3>
+		<p>Puedes descargar el proyecto y los demás recursos a través de los enlaces de la <a href="#top">parte superior de la página</a></p>
+		<br/>
+		<h3>Licencia de uso</h3>
+		<p>El módulo <a href="https://github.com/keensoft/icearchiva">icearchiva</a> está licenciado bajo la licencia <a href="http://www.gnu.org/licenses/lgpl-3.0.html">LGPL v.3</a></p>		
       </section>
     </div>
 
     <!-- FOOTER  -->
     <div id="footer_wrap" class="outer">
       <footer class="inner">
-        <p class="copyright">Icearchiva maintained by <a href="https://github.com/keensoft">keensoft</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+        <a href="http://www.keensoft.es"><img style="width: auto; height: 85px; padding-top: 20px; padding-left: 10px; float: left;" src="images/keensoft.png" ></a>
+		<a href="http://www.aragon.es"><img style="width: auto; height: 120px; float: right" src="images/Industria-Innov_color.jpg" ></a>
+		<br />
+        <p class="copyright" style="padding-top: 20px; clear: left; font-size: 12px;">Proyecto financiado por el <a href="http://www.aragon.es">Gobierno de Aragón</a> dentro del programa de apoyo al Software libre.</p>
       </footer>
     </div>
 
