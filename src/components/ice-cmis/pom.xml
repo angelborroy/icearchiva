@@ -1,0 +1,20 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.icearchiva.modules</groupId>
+    <artifactId>ice-components</artifactId>
+    <version>0.8.1-SNAPSHOT</version>
+  </parent>
+
+  <packaging>pom</packaging>
+  <artifactId>ice-cmis</artifactId>
+  <name>ice :: CMIS</name>
+
+	<modules>
+		<module>ice-cmis-client</module>
+		
+	</modules>
+    <properties>
+  	    <opencmisGroupId>org.apache.chemistry.opencmis</opencmisGroupId>
+    </properties>
+</project>

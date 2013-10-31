@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN//EN' 'http://www.springframework.org/dtd/spring-beans.dtd'>
+
+<beans>
+    
+	<bean id="multiTenancyLoggerResolver" class="org.icearchiva.commons.tenancy.logger.impl.Log4JMultiTenancyLoggerResolver">
+        <property name="multiTenantContextResolver" ref="multiTenantContextResolver"/>
+        <property name="prefix" value="${ice-logger-resolver.audit.prefix}"/>
+        <property name="threshold" value="${ice-logger-resolver.audit.root.threshold}"/>
+        <property name="rootPath" value="${ice-logger-resolver.audit.root.path}"/>
+        <property name="appender" value="${ice-logger-resolver.audit.log4j.appender}"/>
+        <property name="datePattern" value="${ice-logger-resolver.audit.log4j.DatePattern}"/>
+        <property name="layout" value="${ice-logger-resolver.audit.log4j.layout}"/>
+        <property name="layoutConversionPattern" value="${ice-logger-resolver.audit.log4j.layout.conversionPattern}"/>
+	</bean>
+	  
+</beans>

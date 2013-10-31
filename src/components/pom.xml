@@ -1,0 +1,23 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.icearchiva.modules</groupId>
+    <artifactId>ice-modules</artifactId>
+    <version>0.8.1-SNAPSHOT</version>
+  </parent>
+
+  <packaging>pom</packaging>
+  <artifactId>ice-components</artifactId>
+  <name>ice :: components</name>
+
+	<modules>
+		<module>ice-wsdl</module>
+		<module>ice-webservice</module>
+		<module>ice-services</module>
+		<module>ice-cmis</module>
+		<module>ice-commons</module>
+		<module>ice-auth-filter</module>
+    <module>ice-tasks</module>
+	</modules>
+
+</project>

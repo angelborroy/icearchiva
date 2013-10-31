@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions
+    name="IceArchivaWS"
+    xmlns:tns="http://icearchiva.org/lta/ws/v1"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:xmime="http://www.w3.org/2005/05/xmlmime" 
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
+    xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+    xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702"
+    targetNamespace="http://icearchiva.org/lta/ws/v1">
+
+
+    <!-- POLICY (MTOM) -->
+    <!-- see http://www.w3.org/Submission/WS-MTOMPolicy/ -->
+    <wsp:Policy wsu:Id="MTOMPolicy">
+        <wsp:ExactlyOne>
+            <wsp:All>
+                <wsoma:OptimizedMimeSerialization xmlns:wsoma="http://schemas.xmlsoap.org/ws/2004/09/policy/optimizedmimeserialization" />
+            </wsp:All>
+        </wsp:ExactlyOne>
+    </wsp:Policy>
+
+    <!-- TYPES -->
+    <wsdl:types>
+    
+        <xsd:schema attributeFormDefault="unqualified"
+            elementFormDefault="qualified"
+            targetNamespace="http://icearchiva.org/lta/ws/v1"
+            xmlns:ice="http://icearchiva.org/lta/ws/v1"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            
+            <xsd:complexType name="MetaData">
+				<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+					<xsd:element name="MetaItem" type="ice:MetaItem" />
+				</xsd:sequence>
+			</xsd:complexType>
+
+			<xsd:complexType name="MetaItem">
+				<xsd:sequence>
+					<xsd:element name="type" type="xsd:string" />
+					<xsd:element name="values" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+				</xsd:sequence>
+			</xsd:complexType>
+            
+			<xsd:complexType name="ArchiveData">
+				<xsd:sequence minOccurs="1" maxOccurs="unbounded">
+					<xsd:element name="element">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="data" type="xsd:base64Binary" xmime:expectedContentTypes="application/octet-stream"/>
+								<xsd:element name="metaData" type="ice:MetaData" minOccurs="0" />
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+        
+			<xsd:complexType name="Evidence">
+				<xsd:sequence>
+					<xsd:element name="data" type="xsd:base64Binary" xmime:expectedContentTypes="application/octet-stream"/>
+				</xsd:sequence>
+			</xsd:complexType>
+
+			<xsd:simpleType name="StatusInformation">
+			    <xsd:restriction base="xsd:string">
+			        <xsd:enumeration value="granted"/>
+			        <xsd:enumeration value="grantedWidhMods"/>
+			        <xsd:enumeration value="rejection"/>
+			        <xsd:enumeration value="waiting"/>
+			        <xsd:enumeration value="more"/>
+			    </xsd:restriction>
+			</xsd:simpleType>
+
+			<xsd:complexType name="StatusNotice">
+				<xsd:sequence>
+					<xsd:element name="status" type="ice:StatusInformation" />
+					<xsd:element name="errorInformation" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="transactionIdentifier" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+				</xsd:sequence>
+			</xsd:complexType>
+
+            <xsd:complexType name="ListIds">
+				<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+					<xsd:element name="id" type="xsd:string" />
+				</xsd:sequence>
+			</xsd:complexType>
+
+            <!-- ARCHIVE -->
+			<xsd:annotation>
+				<xsd:documentation xmlns:xml="http://www.w3.org/XML/1998/namespace" xml:lang="en">
+					policyId: years required to preserve requested data
+				</xsd:documentation>
+			</xsd:annotation>
+			<xsd:element name="archiveRequest">
+			    <xsd:complexType>
+					<xsd:sequence>
+					    <xsd:element name="version" type="xsd:string" fixed="1.0"/>
+					    <xsd:element name="policyId" type="xsd:int" />
+					    <xsd:element name="transactionId" type="xsd:string" />
+						<xsd:element name="data" type="ice:ArchiveData" />
+					</xsd:sequence>
+			    </xsd:complexType>
+			</xsd:element>
+			<xsd:element name="archiveResponse">
+			    <xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="referenceId" type="xsd:string" />
+						<xsd:element name="status" type="ice:StatusNotice" />
+					</xsd:sequence>
+			    </xsd:complexType>
+			</xsd:element>
+
+            <!-- DELETE -->
+			<xsd:element name="deleteRequest">
+			    <xsd:complexType>
+			        <xsd:sequence>
+					    <xsd:element name="version" type="xsd:string" fixed="1.0"/>
+						<xsd:element name="referenceId" type="xsd:string" />
+					    <xsd:element name="transactionId" type="xsd:string" />
+			        </xsd:sequence>
+			    </xsd:complexType>
+			</xsd:element>
+			<xsd:element name="deleteResponse">
+			    <xsd:complexType>
+			        <xsd:sequence>
+						<xsd:element name="status" type="ice:StatusNotice" />
+			        </xsd:sequence>
+			    </xsd:complexType>
+			</xsd:element>
+
+			<!-- EXPORT -->
+			<xsd:element name="exportRequest">
+			    <xsd:complexType>
+			        <xsd:sequence>
+					    <xsd:element name="version" type="xsd:string" fixed="1.0"/>
+						<xsd:element name="referenceId" type="xsd:string" />
+					    <xsd:element name="transactionId" type="xsd:string" />
+			        </xsd:sequence>
+			    </xsd:complexType>
+			</xsd:element>
+			<xsd:element name="exportResponse">
+			    <xsd:complexType>
+			        <xsd:sequence>
+						<xsd:element name="referenceId" type="xsd:string" />
+					    <xsd:element name="policyId" type="xsd:int" />
+					    <xsd:element name="evidence" type="ice:Evidence" />
+						<xsd:element name="data" type="ice:ArchiveData" />
+						<xsd:element name="status" type="ice:StatusNotice" />
+			        </xsd:sequence>
+			    </xsd:complexType>
+			</xsd:element>
+			
+			<!-- LISTIDS -->
+			<xsd:element name="listIdsRequest">
+			    <xsd:complexType>
+			        <xsd:sequence>
+					    <xsd:element name="version" type="xsd:string" fixed="1.0"/>
+					    <xsd:element name="transactionId" type="xsd:string" />
+			        </xsd:sequence>
+			    </xsd:complexType>
+			</xsd:element>
+			<xsd:element name="listIdsResponse">
+			    <xsd:complexType>
+			        <xsd:sequence>
+			            <xsd:element name="listIds" type="ice:ListIds"/> 
+			        </xsd:sequence>
+			    </xsd:complexType>
+			</xsd:element>
+			
+			<!-- STATUS -->
+			<xsd:element name="statusRequest">
+			    <xsd:complexType>
+			        <xsd:sequence>
+					    <xsd:element name="version" type="xsd:string" fixed="1.0"/>
+					    <xsd:element name="transactionId" type="xsd:string" />
+			        </xsd:sequence>
+			    </xsd:complexType>
+			</xsd:element>
+			<xsd:element name="statusResponse">
+			    <xsd:complexType>
+			        <xsd:sequence>
+						<xsd:element name="status" type="ice:StatusNotice" />
+			        </xsd:sequence>
+			    </xsd:complexType>
+			</xsd:element>
+			
+			<!-- VERIFY -->
+			<xsd:element name="verifyRequest">
+			    <xsd:complexType>
+			        <xsd:sequence>
+					    <xsd:element name="version" type="xsd:string" fixed="1.0"/>
+						<xsd:element name="referenceId" type="xsd:string" />
+					    <xsd:element name="transactionId" type="xsd:string" />
+			        </xsd:sequence>
+			    </xsd:complexType>
+			</xsd:element>
+			<xsd:element name="verifyResponse">
+			    <xsd:complexType>
+			        <xsd:sequence>
+						<xsd:element name="status" type="ice:StatusNotice" />
+			        </xsd:sequence>
+			    </xsd:complexType>
+			</xsd:element>
+		</xsd:schema>
+    
+    </wsdl:types>
+
+    <!-- MESSAGES -->
+	<wsdl:message name="archiveRequestMessage">
+		<wsdl:part name="parameters" element="tns:archiveRequest">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="archiveResponseMessage">
+		<wsdl:part name="parameters" element="tns:archiveResponse">
+		</wsdl:part>
+	</wsdl:message>
+
+	<wsdl:message name="deleteRequestMessage">
+		<wsdl:part name="parameters" element="tns:deleteRequest">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="deleteResponseMessage">
+		<wsdl:part name="parameters" element="tns:deleteResponse">
+		</wsdl:part>
+	</wsdl:message>
+	
+	<wsdl:message name="exportRequestMessage">
+		<wsdl:part name="parameters" element="tns:exportRequest">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="exportResponseMessage">
+		<wsdl:part name="parameters" element="tns:exportResponse">
+		</wsdl:part>
+	</wsdl:message>
+	
+	<wsdl:message name="listIdsRequestMessage">
+		<wsdl:part name="parameters" element="tns:listIdsRequest">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="listIdsResponseMessage">
+		<wsdl:part name="parameters" element="tns:listIdsResponse">
+		</wsdl:part>
+	</wsdl:message>
+	
+	<wsdl:message name="statusRequestMessage">
+		<wsdl:part name="parameters" element="tns:statusRequest">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="statusResponseMessage">
+		<wsdl:part name="parameters" element="tns:statusResponse">
+		</wsdl:part>
+	</wsdl:message>
+	
+	<wsdl:message name="verifyRequestMessage">
+		<wsdl:part name="parameters" element="tns:verifyRequest">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="verifyResponseMessage">
+		<wsdl:part name="parameters" element="tns:verifyResponse">
+		</wsdl:part>
+	</wsdl:message>
+	
+    <!-- PORT-TYPE -->
+	<wsdl:portType name="ltaPortType">
+	
+		<wsdl:operation name="archiveOperation">
+			<wsdl:input message="tns:archiveRequestMessage">
+			</wsdl:input>
+			<wsdl:output message="tns:archiveResponseMessage">
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="deleteOperation">
+			<wsdl:input message="tns:deleteRequestMessage">
+			</wsdl:input>
+			<wsdl:output message="tns:deleteResponseMessage">
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="exportOperation">
+			<wsdl:input message="tns:exportRequestMessage">
+			</wsdl:input>
+			<wsdl:output message="tns:exportResponseMessage">
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="listIdsOperation">
+			<wsdl:input message="tns:listIdsRequestMessage">
+			</wsdl:input>
+			<wsdl:output message="tns:listIdsResponseMessage">
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="statusOperation">
+			<wsdl:input message="tns:statusRequestMessage">
+			</wsdl:input>
+			<wsdl:output message="tns:statusResponseMessage">
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="verifyOperation">
+			<wsdl:input message="tns:verifyRequestMessage">
+			</wsdl:input>
+			<wsdl:output message="tns:verifyResponseMessage">
+			</wsdl:output>
+		</wsdl:operation>
+
+	</wsdl:portType>
+
+    <!-- BINDING -->
+	<wsdl:binding name="ltaPortTypeBinding" type="tns:ltaPortType">
+
+		<wsp:PolicyReference URI="#MTOMPolicy" />
+		
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+
+		<wsdl:operation name="archiveOperation">
+			<soap:operation soapAction="archiveOperation" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="deleteOperation">
+			<soap:operation soapAction="deleteOperation" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="exportOperation">
+			<soap:operation soapAction="exportOperation" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="listIdsOperation">
+			<soap:operation soapAction="listIdsOperation" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="statusOperation">
+			<soap:operation soapAction="statusOperation" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="verifyOperation">
+			<soap:operation soapAction="verifyOperation" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+
+	</wsdl:binding>
+
+    <!-- SERVICE -->
+	<wsdl:service name="ltaService">
+		<wsdl:port name="ltaPort" binding="tns:ltaPortTypeBinding">
+			<soap:address location="http://localhost:8080/web/lta?wsdl" />
+		</wsdl:port>
+	</wsdl:service>
+
+</wsdl:definitions>

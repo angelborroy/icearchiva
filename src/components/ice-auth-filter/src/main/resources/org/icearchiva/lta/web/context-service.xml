@@ -1,0 +1,18 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+		
+    <!-- Auth filter -->
+    <bean id="authFilter" class="org.icearchiva.lta.web.filter.HtmlBasicAuthFilter">
+        <property name="authenticationSystem" ref="authSystem" />
+        <property name="multiTenantContextSetter" ref="multiTenantContextSetter"/> 
+        <property name="sessionSetter" ref="sessionSetter"/>
+    </bean>
+	
+    <!-- DummyAuthenticationSystem -->
+	<beans profile="auth-dummy">
+        <bean id="authSystem" class="org.icearchiva.lta.auth.AuthenticationSystemDummyImpl"/>
+    </beans>
+	    
+</beans>

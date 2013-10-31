@@ -1,0 +1,63 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.icearchiva.modules</groupId>
+    <artifactId>ice-services</artifactId>
+    <version>0.8.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>ice-services.aip.impl</artifactId>
+  
+    <!-- TODO change to definitive keensoft repositories -->
+	<repositories>
+		<repository>
+			<id>keensoft.internal</id>
+			<name>Internal Repository</name>
+			<url>http://mistral/maven/internal</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>keensoft.releases</id>
+			<name>Internal Repository</name>
+			<url>http://mistral/maven/releases</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>keensoft.snapshots</id>
+			<name>Internal Repository</name>
+			<url>http://mistral/maven/snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</repository>
+	</repositories>
+	
+	<dependencies>
+		<!-- METS Dependencies -->
+        <dependency>
+			<groupId>org.nubarchiva</groupId>
+		    <artifactId>commons-standards.mets</artifactId>
+			<version>1.2.19</version>
+			<exclusions>
+			    <exclusion>
+			        <groupId>es.aragon.commons</groupId>
+			        <artifactId>commons-slf4j-log4j12</artifactId>
+			    </exclusion>
+			    <exclusion>
+			        <groupId>javax.xml.stream</groupId>
+			        <artifactId>stax-api</artifactId>
+			    </exclusion>
+			</exclusions>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.icearchiva.modules</groupId>
+		    <artifactId>ice-services.interface</artifactId>
+		</dependency>
+		
+    </dependencies>
+  
+</project>

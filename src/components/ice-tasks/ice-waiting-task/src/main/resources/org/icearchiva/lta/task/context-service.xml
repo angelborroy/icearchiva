@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Asynchronous signatures -->
+    <bean name="waitingSignaturesTask" class="org.icearchiva.lta.task.WaitingSignaturesTask">
+        <property name="searchService" ref="searchService" />
+        <property name="ltaService" ref="ltaService" />
+    </bean>
+
+	<bean name="waitingSignaturesSchedulerJob" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="org.icearchiva.lta.task.WaitingSignaturesJob" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="waitingSignaturesTask" value-ref="waitingSignaturesTask" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="waitingSignaturesCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="waitingSignaturesSchedulerJob" />
+		<property name="cronExpression" value="${ice-waiting-task.signature.listener.cronExpression}" />
+	</bean>
+
+    <!-- Restamping -->
+    <bean name="restampingTask" class="org.icearchiva.lta.task.RestampingTask">
+        <property name="searchService" ref="searchService" />
+        <property name="ltaService" ref="ltaService" />
+    </bean>
+
+	<bean name="restampingSchedulerJob" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="org.icearchiva.lta.task.RestampingJob" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="restampingTask" value-ref="restampingTask" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="restampingCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="restampingSchedulerJob" />
+		<property name="cronExpression" value="${ice-waiting-task.restamping.listener.cronExpression}" />
+	</bean>
+    
+	<!-- Quartz -->
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="jobDetails">
+			<list>
+				<ref bean="waitingSignaturesSchedulerJob" />
+				<ref bean="restampingSchedulerJob" />
+			</list>
+		</property>
+ 		<property name="triggers">
+			<list>
+				<ref bean="waitingSignaturesCronTrigger" />
+				<ref bean="restampingCronTrigger" />
+			</list>
+		</property>
+		<property name="taskExecutor" ref="taskExecutor" />
+	</bean>
+
+    <beans profile="task-java">
+		<bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ConcurrentTaskExecutor" />
+	</beans>
+
+    <beans profile="task-commonj">
+        <!-- Not to use TimerManager (tm/default) from WebSphere (!) -->
+		<bean id="taskExecutor" class="org.springframework.scheduling.commonj.WorkManagerTaskExecutor">
+		   <property name="workManagerName" value="${ice-waiting-task.timer.manager.jndi}"/>
+		   <property name="resourceRef" value="false"/>
+		</bean>    
+	</beans>
+
+</beans>

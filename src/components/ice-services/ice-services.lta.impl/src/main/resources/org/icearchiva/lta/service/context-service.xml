@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN//EN' 'http://www.springframework.org/dtd/spring-beans.dtd'>
+
+<beans>
+    
+	<bean id="ltaService" class="org.icearchiva.lta.service.LtaServiceImpl">
+	    <property name="sessionResolver" ref="sessionResolver"/>
+        <property name="multiTenantContextResolver" ref="multiTenantContextResolver"/>	    
+	    <property name="aipService" ref="aipService"/>
+	    <property name="esignService" ref="esignService"/>
+	    <property name="searchService" ref="searchService"/>
+	    <property name="cmisClient" ref="cmisClient"/>
+	</bean>
+	  
+</beans>

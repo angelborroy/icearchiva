@@ -1,0 +1,42 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.icearchiva.modules</groupId>
+    <artifactId>ice-cmis-client</artifactId>
+    <version>0.8.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>ice-cmis-client.impl</artifactId>
+  
+  <dependencies>
+		<dependency>
+		    <groupId>org.icearchiva.modules</groupId>
+		    <artifactId>ice-cmis-client.interface</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.icearchiva.modules</groupId>
+		    <artifactId>ice-multitenancy.context</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.icearchiva.modules</groupId>
+		    <artifactId>ice-session-resolver</artifactId>
+		</dependency>
+  
+	    <dependency>
+	      <groupId>${opencmisGroupId}</groupId>
+	      <artifactId>chemistry-opencmis-client-impl</artifactId>
+	      <version>${opencmisVersion}</version>
+	      <exclusions>
+	          <exclusion>
+	              <groupId>javax.xml.ws</groupId>
+	              <artifactId>jaxws-api</artifactId>
+	          </exclusion>
+	          <exclusion>
+	              <groupId>com.sun.xml.ws</groupId>
+	              <artifactId>jaxws-rt</artifactId>
+	          </exclusion>
+	      </exclusions>
+	    </dependency>
+
+  </dependencies>
+  
+</project>

@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN//EN' 'http://www.springframework.org/dtd/spring-beans.dtd'>
+
+<beans>
+    
+	<bean id="cmisClient" class="org.icearchiva.cmis.client.AtomBindingCMISClientImpl">
+	    <property name="urlCmisServer" value="${ice-cmis-client.url.atom}"/>
+	    <property name="repoFolderNestingLevels" value="${ice-cmis-client.folder.nesting.levels}"/>
+	    <property name="user" value="${ice-cmis-client.user}"/>
+	    <property name="password" value="${ice-cmis-client.password}"/>
+	    <property name="repository" value="${ice-cmis-client.repository}"/>
+	    <property name="sessionResolver" ref="sessionResolver"/>
+        <property name="multiTenantContextResolver" ref="multiTenantContextResolver"/>	    
+	</bean>
+	  
+</beans>

@@ -1,0 +1,42 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.icearchiva.modules</groupId>
+    <artifactId>ice-webservice</artifactId>
+    <version>0.8.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>ice-webservice.impl</artifactId>
+  
+  <dependencies>
+  
+		<dependency>
+		    <groupId>org.icearchiva.modules</groupId>
+		    <artifactId>ice-webservice.interface</artifactId>
+		</dependency>
+      
+		<dependency>
+		    <groupId>org.icearchiva.modules</groupId>
+		    <artifactId>ice-services.interface</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		
+		<!-- JAXB API Must be the same version as JAXB IMPL provided by CXF (!) -->
+		<dependency>
+	       <groupId>javax.xml.bind</groupId>
+	       <artifactId>jaxb-api</artifactId>
+	       <version>2.2.6</version>
+	    </dependency>
+  
+  </dependencies>
+    
+</project>

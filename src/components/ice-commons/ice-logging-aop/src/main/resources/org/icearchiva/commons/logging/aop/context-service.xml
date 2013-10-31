@@ -1,0 +1,46 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+	http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd ">
+
+	<aop:aspectj-autoproxy />
+
+	<!-- Aspect -->
+	<bean id="logAspect" class="org.icearchiva.commons.logging.aop.JAXBParametersLoggingAspect">
+	    <property name="auditSystem" ref="auditSystem"/>
+	</bean>
+
+	<bean id="auditSystem" class="org.icearchiva.lta.audit.MultiTenantAuditSystemLogImpl">
+    	<property name="multiTenancyLoggerResolver" ref="multiTenancyLoggerResolver"/>
+    	<property name="sessionResolver" ref="sessionResolver" />
+    </bean>
+
+	<aop:config>
+
+		<aop:aspect id="aspectLoggging" ref="logAspect" >
+
+			<!-- @Before -->
+			<aop:pointcut id="pointCutBefore"
+				expression="execution(* org.icearchiva.lta.webservice.LtaWebServiceImpl..*(..))" />
+
+			<aop:before method="logBefore" pointcut-ref="pointCutBefore" />
+			
+			<!-- @After -->
+			<aop:pointcut id="pointCutAfterReturning"
+				expression="execution(* org.icearchiva.lta.webservice.LtaWebServiceImpl..*(..))" />
+
+			<aop:after-returning method="logAfterReturning" returning="result" pointcut-ref="pointCutAfterReturning" />
+			
+			<aop:pointcut id="pointCutAfterThrowing"
+				expression="execution(* org.icearchiva.lta.webservice.LtaWebServiceImpl..*(..))" />
+
+			<aop:after-throwing method="logAfterThrowing" throwing="error" pointcut-ref="pointCutAfterThrowing" />
+
+		</aop:aspect>
+
+	</aop:config>
+
+
+</beans>
